@@ -51,6 +51,10 @@ class Short(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+    def increment_hits(self):
+        self.hits += 1
+        db.session.commit()
  
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

@@ -103,12 +103,12 @@ def account():
 
 @app.route('/<path:path>')
 def reroute(path):
-    form = GenerateURLForm()
     short = Short.get_by_alias(path)
     if short and short.url:
+        short.increment_hits()
         return redirect(short.url.link)
-
-    return abort(404)
+    flash('That short url does not exist', 'danger')
+    return redirect(url_for('home'))
 
 
 # @app.route("/post/new", methods=['GET', 'POST'])
