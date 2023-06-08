@@ -108,7 +108,7 @@ def reroute(path):
     if short and short.url:
         return redirect(short.url.link)
 
-    return redirect('/')
+    return abort(404)
 
 
 # @app.route("/post/new", methods=['GET', 'POST'])

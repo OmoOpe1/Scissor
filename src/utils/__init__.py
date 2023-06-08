@@ -1,6 +1,7 @@
 import string
 import random
 from src.model import Short, Url
+from flask_login import current_user
 
 def save_url(link, alias=''):
     if not alias:
@@ -11,7 +12,7 @@ def save_url(link, alias=''):
         url = Url(link=link)
         url.save()
 
-    short_url = Short(alias=alias, url_id=url.id)
+    short_url = Short(alias=alias, url_id=url.id, owner_id=current_user.get_id())
     short_url.save()
     return short_url
     
