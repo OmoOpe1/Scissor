@@ -9,6 +9,11 @@ from src.utils import save_url
 from sqlalchemy import desc
 from flask_login import login_user, current_user, logout_user, login_required
 
+@app.context_processor
+def inject_base_url():
+    base_url = request.host_url
+    return dict(base_url=base_url)
+
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def home():
@@ -18,7 +23,7 @@ def home():
     if form.validate_on_submit():
         short_url = save_url(link=form.url.data, alias=form.custom_url.data)
         print(short_url)
-        flash(short_url.alias, 'success')
+        flash(request.host_url + short_url.alias, 'success')
     return render_template('home.html', form=form, short_url=short_url)
 
 @app.route("/about")
@@ -99,8 +104,11 @@ def account():
 @app.route('/<path:path>')
 def reroute(path):
     form = GenerateURLForm()
-    flash(path, 'success')
-    return render_template('home.html', form=form)
+    short = Short.get_by_alias(path)
+    if short and short.url:
+        return redirect(short.url.link)
+
+    return redirect('/')
 
 
 # @app.route("/post/new", methods=['GET', 'POST'])

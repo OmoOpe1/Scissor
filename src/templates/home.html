@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content-section">
         {% if short_url %}
-        <img src="{{ qrcode(short_url.alias)  }}">
+        <img src="{{ qrcode(base_url ~ short_url.alias) }}">
         {% endif %}
         <form method="POST" action="">
             {{ form.hidden_tag() }}

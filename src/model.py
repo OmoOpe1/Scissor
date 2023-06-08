@@ -38,6 +38,12 @@ class Short(db.Model):
     url_id = db.Column(db.Integer, db.ForeignKey('url.id'), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
+    url = db.relationship("Url")
+
+    @classmethod
+    def get_by_alias(cls, alias):
+        short_url = cls.query.filter_by(alias=alias).first()
+        return short_url
     
     def __repr__(self) -> str:
         return f"<Short {self.alias}>"
@@ -45,11 +51,6 @@ class Short(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
-    @classmethod
-    def get_by_alias(cls, alias):
-        short_url = cls.query.filter_by(alias=alias).first()
-        return short_url
  
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
