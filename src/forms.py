@@ -2,16 +2,18 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, URL, Length, Email, EqualTo, ValidationError
+from wtforms.validators import Optional, DataRequired, URL, Length, Email, EqualTo, ValidationError
 from src.model import Short, User
 
 class GenerateURLForm(FlaskForm):
     url = StringField('Url', validators=[DataRequired(), URL(require_tld=False)])
-    custom_url = StringField('Custom Url', validators=[Length(min=2, max=20)])
+    custom_url = StringField('Custom Url', validators=[Optional(), Length(min=2, max=20)])
     submit = SubmitField('Generate URL')
 
     def validate_custom_url(self, url):
-        short_url = Short.get_by_alias(url)
+        data = url.data
+        print('custom', data)
+        short_url = Short.get_by_alias(data)
         if short_url:
             raise ValidationError('That custom url is taken. Please choose a different one.')
 

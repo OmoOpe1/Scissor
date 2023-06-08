@@ -15,9 +15,9 @@ def home():
     # posts = Post.query.order_by(desc(Post.date_posted)).all()
     form = GenerateURLForm()
     if form.validate_on_submit():
-        url = save_url(url=form.url.data)
+        url = save_url(url=form.url.data, customUrl=form.custom_url.data)
         print(url)
-        flash('hla', 'success')
+        flash(url, 'success')
     return render_template('home.html', form=form)
 
 @app.route("/about")
