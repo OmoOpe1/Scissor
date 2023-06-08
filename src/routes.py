@@ -13,12 +13,13 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/home", methods=['GET', 'POST'])
 def home():
     # posts = Post.query.order_by(desc(Post.date_posted)).all()
+    short_url = ''
     form = GenerateURLForm()
     if form.validate_on_submit():
-        url = save_url(url=form.url.data, customUrl=form.custom_url.data)
-        print(url)
-        flash(url, 'success')
-    return render_template('home.html', form=form)
+        short_url = save_url(url=form.url.data, customUrl=form.custom_url.data)
+        print(short_url)
+        flash(short_url.alias, 'success')
+    return render_template('home.html', form=form, short_url=short_url)
 
 @app.route("/about")
 def about():
