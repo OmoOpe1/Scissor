@@ -1,15 +1,18 @@
 import string
 import random
-from src.model import Short
+from src.model import Short, Url
 
-def save_url(url, customUrl=''):
-    alias = customUrl
-    if not customUrl:
+def save_url(link, alias=''):
+    if not alias:
         alias = generate_alias()
 
-    print(url, 'its the url')
-    short_url = Short(alias=alias, url=url)
-    Short.save(short_url)
+    url = Url.get_by_link(link)
+    if not url:
+        url = Url(link=link)
+        url.save()
+
+    short_url = Short(alias=alias, url_id=url.id)
+    short_url.save()
     return short_url
     
 

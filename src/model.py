@@ -11,11 +11,11 @@ def load_user(user_id):
 class Url(db.Model):
     __tablename__='url'
     id = db.Column(db.Integer(), primary_key=True)
-    url = db.Column(db.String(128), nullable=False)
+    link = db.Column(db.String(128), nullable=False)
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
     
     def __repr__(self) -> str:
-        return f"<Url {self.url}>"
+        return f"<Url {self.link}>"
     
     def save(self):
         db.session.add(self)
@@ -24,13 +24,18 @@ class Url(db.Model):
     @classmethod
     def get_by_id(cls, id):
         return cls.query.get_or_404(id)
+    
+    @classmethod
+    def get_by_link(cls, link):
+        url = cls.query.filter_by(link=link).first()
+        return url
 
 class Short(db.Model):
     __tablename__='short'
     id = db.Column(db.Integer(), primary_key=True)
     alias = db.Column(db.String(128), nullable=False)
     hits = db.Column(db.Integer(), default=0)
-    url = db.Column(db.Integer, db.ForeignKey('url.id'), nullable=False)
+    url_id = db.Column(db.Integer, db.ForeignKey('url.id'), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
     

@@ -16,7 +16,7 @@ def home():
     short_url = ''
     form = GenerateURLForm()
     if form.validate_on_submit():
-        short_url = save_url(url=form.url.data, customUrl=form.custom_url.data)
+        short_url = save_url(link=form.url.data, alias=form.custom_url.data)
         print(short_url)
         flash(short_url.alias, 'success')
     return render_template('home.html', form=form, short_url=short_url)
@@ -95,6 +95,12 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+
+@app.route('/<path:path>')
+def reroute(path):
+    form = GenerateURLForm()
+    flash(path, 'success')
+    return render_template('home.html', form=form)
 
 
 # @app.route("/post/new", methods=['GET', 'POST'])
