@@ -101,6 +101,14 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+@app.route('/shorts/<int:id>', methods=['GET'])
+def short_details(id):
+    short = Short.query.get(id)
+    if not short:
+        flash('That short url does not exist', 'danger')
+        return redirect(url_for('home'))
+    return render_template('short_url_details.html', title='Short Url Details', short_url=short)
+
 @app.route('/<path:path>')
 def reroute(path):
     short = Short.get_by_alias(path)
