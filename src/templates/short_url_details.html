@@ -4,8 +4,8 @@
     <div class="content-section">
         {% if short_url %}
             <h1>Short URL Details</h1>
-            <p><strong>Short URL:</strong> {{ base_url ~ short_url.alias }}</p>
-            <p><strong>Original URL:</strong> {{ short_url.url.link }}</p>
+            <p><strong>Short URL:</strong> <a href="{{ base_url ~ short_url.alias }}">{{ base_url ~ short_url.alias }}</a></p>
+            <p><strong>Original URL:</strong> <a href="{{ short_url.url.link }}">{{ short_url.url.link }}</a></p>
             <p><strong>Hits:</strong> {{ short_url.hits }}</p>
             <img src="{{ qrcode(base_url ~ short_url.alias) }}">
         {% else %}

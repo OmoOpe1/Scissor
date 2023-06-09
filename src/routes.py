@@ -17,13 +17,11 @@ def inject_base_url():
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def home():
-    # posts = Post.query.order_by(desc(Post.date_posted)).all()
     short_url = ''
     form = GenerateURLForm()
     if form.validate_on_submit():
         short_url = save_url(link=form.url.data, alias=form.custom_url.data)
-        print(short_url)
-        flash(request.host_url + short_url.alias, 'success')
+        return redirect(url_for('short_details', id=short_url.id))
     return render_template('home.html', form=form, short_url=short_url)
 
 @app.route("/about")
