@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
-from src import app, db, bcrypt
+from src import app, db, bcrypt, cache
 from src.forms import GenerateURLForm, RegistrationForm, LoginForm, UpdateAccountForm
 from src.model import User, Url, Short
 from src.utils import save_url

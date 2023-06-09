@@ -53,7 +53,7 @@ class Short(db.Model):
         db.session.commit()
 
     def increment_hits(self):
-        self.hits += 1
+        self.hits = self.hits + 1
         db.session.commit()
  
 class User(db.Model, UserMixin):
